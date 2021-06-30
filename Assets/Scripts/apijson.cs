@@ -36,7 +36,7 @@ public class apijson : MonoBehaviour
         progressbar.value = 0;
         progresspanel.SetActive(true);
         player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
-        StartCoroutine(GetRequest("https://www.oxvrlibrary.com/api/fjAkl22m9bEpqs/apifj22qasywz/book/get_book/all"));
+        StartCoroutine(GetRequest("")); // Api here: https://www.oxvrlibrary.com/api/fjAkl22m9bEpqs/apifj22qasywz/book/get_book/all
         
        
     }
