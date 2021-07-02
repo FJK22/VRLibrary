@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MeshSize : MonoBehaviour
@@ -25,9 +26,9 @@ public class MeshSize : MonoBehaviour
             Destroy(this);
         }
     }
-    public void Init()
+    public IEnumerator Init()
     {
-        if (totalBookCount == 0) return;
+        if (totalBookCount == 0) return null;
         _center = CenterOrLibrary.position;
         Vector3 _radiusVector = floor0.GetChild(0).position - _center;
         radius = Mathf.Sqrt(_radiusVector.x * _radiusVector.x + _radiusVector.z * _radiusVector.z);
@@ -43,6 +44,7 @@ public class MeshSize : MonoBehaviour
                 _remain = FillInFloor(newFloor, _remain);
             }
         }
+        return null;
     }
 
     private Transform MakeNewFloor(int floorNum)

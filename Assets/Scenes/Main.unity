@@ -1553,7 +1553,7 @@ MonoBehaviour:
   CenterOrLibrary: {fileID: 2287116299255939544}
   BookSlotPrefab: {fileID: 3422918694095810243, guid: 538332ce02e1d654eb61c6ef33763c4e, type: 3}
   BookSlotParent: {fileID: 1366278542289003005}
-  distanceOfBook: 0.139
+  distanceOfBook: 0.372
   radius: 0
 --- !u!114 &1113977749
 MonoBehaviour:
@@ -2397,7 +2397,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5869888756281378857}
   - {fileID: 5135030224088317624}
   m_Father: {fileID: 2287116299255939544}
   m_RootOrder: 3
@@ -3280,6 +3279,7 @@ Transform:
   - {fileID: 7341586102737385497}
   - {fileID: 1618210131530354455}
   - {fileID: 4028857019712280570}
+  - {fileID: 5869888756281378857}
   m_Father: {fileID: 2287116299255939544}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7068,7 +7068,7 @@ Transform:
   m_LocalScale: {x: 39.37008, y: 39.37008, z: 21.870289}
   m_Children: []
   m_Father: {fileID: 1562019884}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5144419348354480802
 GameObject:
@@ -7595,8 +7595,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.39370102, y: 0.39370102, z: 0.39370102}
   m_Children: []
-  m_Father: {fileID: 1562019884}
-  m_RootOrder: 0
+  m_Father: {fileID: 2132233495}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5881878817825500110
 GameObject:

@@ -36,8 +36,6 @@ public class apijson : MonoBehaviour
         progresspanel.SetActive(true);
         player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
         StartCoroutine(GetRequest("https://www.oxvrlibrary.com/api/fjAkl22m9bEpqs/apifj22qasywz/book/get_book/all")); // Api here: 
-        
-       
     }
     private void Update()
     {
@@ -55,7 +53,7 @@ public class apijson : MonoBehaviour
 
     IEnumerator GetRequest(string uri)
     {
-       // yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
            
