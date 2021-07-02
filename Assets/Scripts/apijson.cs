@@ -103,18 +103,13 @@ public class apijson : MonoBehaviour
                         MeshSize.Instance.totalBookCount = r.books.Count;
                         MeshSize.Instance.Init();
                         string[] bookprimarytext=new string[r.books.Count];
-                        for (int i = 0; i < r.books.Count; i++)
+                        int count = (r.books.Count > group1.transform.childCount) ? group1.transform.childCount : r.books.Count;
+                        for (int i = 0; i < count; i++)
                         {
                             bookprimarytext[i] = r.books[i].primary_call;
-                           positionmarker.Add(group1.transform.GetChild(i).gameObject);
+                            positionmarker.Add(group1.transform.GetChild(i).gameObject);
 
                         }
-                        // for (int i = 0; i < r.books.Count; i++)
-                        // {
-                           
-                            
-
-                        // }
 
                         Array.Sort(bookprimarytext);
 
