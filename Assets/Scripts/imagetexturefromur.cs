@@ -15,8 +15,11 @@ public class imagetexturefromur : MonoBehaviour
    private void Start()
     {
         courutineallowed = true;
-        TextureURL = "https://www.oxvrlibrary.com/upload_book_covers/" + book.book_cover_filename + ".png";
-        Debug.Log(TextureURL);
+        if (book.book_cover_filename != null && book.book_cover_filename != "")
+        {
+            TextureURL = "https://www.oxvrlibrary.com/upload_book_covers/" + book.book_cover_filename + ".png";
+            Debug.Log(TextureURL);
+        }
         Startating();
 
     }
@@ -30,7 +33,7 @@ public class imagetexturefromur : MonoBehaviour
         textBoxs[5].text = "Publisher: "+book.publisher;
         textBoxs[6].text = "Tag 300: "+book.tag300;
         textBoxs[7].text = "Subjects: "+book.subjects;
-        StartCoroutine(DownloadImage(TextureURL));
+        if(TextureURL != "")StartCoroutine(DownloadImage(TextureURL));
     }
 
    

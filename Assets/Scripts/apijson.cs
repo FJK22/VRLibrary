@@ -99,7 +99,7 @@ public class apijson : MonoBehaviour
                     if (r.status=="true")//checking that books have any value or not
                     {
                         MeshSize.Instance.totalBookCount = r.books.Count;
-                        MeshSize.Instance.Init();
+                        yield return MeshSize.Instance.Init();
                         string[] bookprimarytext=new string[r.books.Count];
                         int count = (r.books.Count > group1.transform.childCount) ? group1.transform.childCount : r.books.Count;
                         for (int i = 0; i < count; i++)
