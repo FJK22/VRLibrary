@@ -21,6 +21,7 @@ TagManager:
   - shelf6
   - shelf7
   - cubehumai
+  - F0Shelf1Row1book1
   layers:
   - Default
   - TransparentFX
@@ -28,8 +29,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Book
-  - Player
+  - 
+  - 
   - 
   - 
   - 

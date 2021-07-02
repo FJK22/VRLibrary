@@ -16,7 +16,6 @@ public class apijson : MonoBehaviour
     [SerializeField] GameObject prefab;
     [SerializeField] GameObject group1;
     public List<GameObject> positionmarker;
-    imagetexturefromur itfu;
     public GameObject obj;
     [SerializeField]
     GameObject logs;
@@ -36,7 +35,7 @@ public class apijson : MonoBehaviour
         progressbar.value = 0;
         progresspanel.SetActive(true);
         player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
-        StartCoroutine(GetRequest("")); // Api here: https://www.oxvrlibrary.com/api/fjAkl22m9bEpqs/apifj22qasywz/book/get_book/all
+        StartCoroutine(GetRequest("https://www.oxvrlibrary.com/api/fjAkl22m9bEpqs/apifj22qasywz/book/get_book/all")); // Api here: 
         
        
     }
@@ -67,7 +66,7 @@ public class apijson : MonoBehaviour
             while (!webRequest.isDone)
             {
                // progressbar.value = webRequest.downloadProgress;
-                Debug.Log("Downloading : " + webRequest.downloadProgress  + "%");
+                // Debug.Log("Downloading : " + webRequest.downloadProgress  + "%");
                 yield return null;
             }
 
@@ -101,19 +100,21 @@ public class apijson : MonoBehaviour
 
                     if (r.status=="true")//checking that books have any value or not
                     {
+                        MeshSize.Instance.totalBookCount = r.books.Count;
+                        MeshSize.Instance.Init();
                         string[] bookprimarytext=new string[r.books.Count];
                         for (int i = 0; i < r.books.Count; i++)
                         {
                             bookprimarytext[i] = r.books[i].primary_call;
-                           
+                           positionmarker.Add(group1.transform.GetChild(i).gameObject);
 
                         }
-                        for (int i = 0; i < r.books.Count*2; i=i+2)
-                        {
+                        // for (int i = 0; i < r.books.Count; i++)
+                        // {
                            
-                            positionmarker.Add(group1.transform.GetChild(i).gameObject);
+                            
 
-                        }
+                        // }
 
                         Array.Sort(bookprimarytext);
 
@@ -121,8 +122,10 @@ public class apijson : MonoBehaviour
                         {
                             // int j = i;
                             obj = Instantiate(prefab, positionmarker[i].transform.position, positionmarker[i].transform.rotation);
+                            obj.transform.Rotate(Vector3.up, -90);
+                            obj.transform.Translate(Vector3.right * 0.2f);
                             obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().arrow.SetActive(true);
-                            obj.gameObject.tag = positionmarker[i].name;
+                            // obj.gameObject.tag = positionmarker[i].name;
                             obj.gameObject.name = "Book";
                             int j = 0;
                             while (true)  //finding the value of first book 

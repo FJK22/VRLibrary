@@ -16,6 +16,7 @@ public class imagetexturefromur : MonoBehaviour
     {
         courutineallowed = true;
         TextureURL = "https://www.oxvrlibrary.com/upload_book_covers/" + book.book_cover_filename + ".png";
+        Debug.Log(TextureURL);
         Startating();
 
     }
