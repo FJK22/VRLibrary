@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class ondropclick : MonoBehaviour
 {
-
     Quaternion rot;
     private void Start()
     {
@@ -15,11 +13,8 @@ public class ondropclick : MonoBehaviour
 
     public void ondrop()
     {
-
         StartCoroutine(DropBook());
-
     }
-   
     
    /* IEnumerator DropBook()
     {
@@ -74,16 +69,12 @@ public class ondropclick : MonoBehaviour
 
     IEnumerator DropBook()
     {
-
-
-
         float angle = Quaternion.Angle(rot, this.gameObject.transform.localRotation);
 
         if (angle > 0 || angle < 0)
         {
             iTween.RotateTo(this.transform.gameObject, iTween.Hash("rotation", new Vector3(0, 180, 0), "islocal", true, "time", 1.2f));
             yield return new WaitForSeconds(.5f);
-
         }
 
         Quaternion temp = transform.localRotation;
@@ -92,9 +83,6 @@ public class ondropclick : MonoBehaviour
         temp.z = 0f;
         temp.w = 0f;
         transform.localRotation = rot;
-
-       
-
 
         this.GetComponent<imagetexturefromur>().detailpanel.SetActive(false);
         this.GetComponent<imagetexturefromur>().arrow.SetActive(false);

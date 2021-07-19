@@ -4,7 +4,6 @@ using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
 using TMPro;
-using System.Text;
 using System;
 using System.Linq;
 using UnityEngine.UI;
@@ -40,14 +39,12 @@ public class apijson : MonoBehaviour
     private void Update()
     {
         progresspanel.transform.GetChild(2).gameObject.transform.Rotate(new Vector3(0, 0, -300) * Time.deltaTime);
-       
     }
 
     void SetPositionMarker()
     {
         for(int i =0; i<2400; i++)
         positionmarker.Add(group1.transform.GetChild(i).gameObject);
-
         positionmarker = positionmarker.OrderBy(tile => tile.name).ToList(); // done
     }
 
@@ -56,7 +53,7 @@ public class apijson : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
-             webRequest.SendWebRequest();
+            webRequest.SendWebRequest();
             while (!webRequest.isDone)
             {
                // progressbar.value = webRequest.downloadProgress;
@@ -83,7 +80,7 @@ public class apijson : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                      Root r = new Root();
                      r = JsonConvert.DeserializeObject<Root>( webRequest.downloadHandler.text);
-                      Debug.Log("Execute");
+                     Debug.Log("Execute");
                     //Make request. Don't yield
                    
                     if (r.status=="true")//checking that books have any value or not
@@ -96,7 +93,6 @@ public class apijson : MonoBehaviour
                         {
                             bookprimarytext[i] = r.books[i].primary_call;
                             positionmarker.Add(group1.transform.GetChild(i).gameObject);
-
                         }
 
                         Array.Sort(bookprimarytext);
@@ -123,8 +119,6 @@ public class apijson : MonoBehaviour
                             }
                             obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().book = r.books[j];
                         }
-
-
 
                         progressbar.value = 1;
                         yield return new WaitForSeconds(0.5f);

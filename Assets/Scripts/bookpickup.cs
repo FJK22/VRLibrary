@@ -1,37 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine.UI;
 
-
 public class bookpickup : MonoBehaviour
 {
-    
-   public bool checkdefinearea = false;
+    public bool checkdefinearea = false;
     public GameObject player;
-    public GameObject newlocationobject;
-   
-   public bool clicked = false;
-  public  Vector3 tempbookloc;
-     public Quaternion   tempbookrot;
-
-
+    public GameObject newlocationobject; 
+    public bool clicked = false;
+    public Vector3 tempbookloc;
+    public Quaternion   tempbookrot;
     public List<GameObject> activeBooks;
-   
     public bool checkclicked = false;
-
-
     public bool bookPicked = false;
-
 
     public void changeclick()
     {
         checkclicked = false;
-
-
     }
-
   
     void Update()
     {
@@ -45,40 +32,24 @@ public class bookpickup : MonoBehaviour
                 {
                     if (hit.transform.gameObject.name == "Book")
                     {
-
                         bookPicked = true;
-
-
-                          
-                           
-                            tempbookloc = hit.transform.gameObject.transform.position;
-                            tempbookrot = hit.transform.rotation;
-                            iTween.MoveTo(hit.transform.gameObject, newlocationobject.transform.position, 3f);
-                            hit.transform.rotation = newlocationobject.transform.rotation;
-
-
-                            for (int i = 0; i < hit.transform.GetChild(0).GetComponent<imagetexturefromur>().textBoxs.Length; i++)
-                            {
-                                hit.transform.GetChild(0).GetComponent<imagetexturefromur>().textBoxs[i].gameObject.transform.parent.transform.parent.transform.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
-
-                            }
-
-
-                            hit.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().arrow.SetActive(true);
-                            hit.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().detailpanel.SetActive(false);
-                            hit.transform.gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                            player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
-
-                           
-                           
-                        
+                        tempbookloc = hit.transform.position;
+                        tempbookrot = hit.transform.rotation;
+                        iTween.MoveTo(hit.transform.gameObject, newlocationobject.transform.position, 3f);
+                        hit.transform.rotation = newlocationobject.transform.rotation;
+                        var img = hit.transform.GetChild(0).GetComponent<imagetexturefromur>();
+                        for (int i = 0; i < img.textBoxs.Length; i++)
+                        {
+                            img.textBoxs[i].transform.parent.parent.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
+                        }
+                        img.arrow.SetActive(true);
+                        img.detailpanel.SetActive(false);
+                        hit.transform.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                        player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
                     }
                 }
-
             }
-        }
-       
-        
+        }   
           /*  if (checkclicked == false)  //cheking that booked is already click or not
             {
             
