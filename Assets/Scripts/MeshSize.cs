@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 public class MeshSize : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class MeshSize : MonoBehaviour
     public float radius = 0;    // this is library radius : is caculated in script.
     private Vector3 _center;
 
+    bool flag = true;
     void Awake(){
         if(Instance == null){
             Instance = this;
@@ -44,6 +47,7 @@ public class MeshSize : MonoBehaviour
                 _remain = FillInFloor(newFloor, _remain);
             }
         }
+        GC.Collect();
         return null;
     }
 
@@ -52,8 +56,8 @@ public class MeshSize : MonoBehaviour
         Transform newFloor = Instantiate(floor1.parent, floor1.parent.parent);
         newFloor.position = floor1.parent.position + Vector3.up * 5 * (floorNum - 1);
         newFloor.name = "Floor" + floorNum;
-        Transform row = newFloor.Find("Rows");
-        Roof.Translate(Vector3.up * 5);
+        Transform row = newFloor.Find("Rows1");
+        Roof.Translate(Vector3.back * 5);
         return row;
     }
 
@@ -64,24 +68,53 @@ public class MeshSize : MonoBehaviour
         int _capacity;
         float _angleDelta;
         Vector3 _direction;
+        Vector3[] _verts;
         foreach (Transform row in floor)
         {
-            _bound = row.GetComponent<MeshRenderer>().bounds;
-            _length = Mathf.Sqrt(_bound.size.x * _bound.size.x + _bound.size.z * _bound.size.z);
-            _capacity = (int)(_length / distanceOfBook);
-            _angleDelta = Mathf.Asin(_length / radius / 2f) / (float)_capacity * 360 / Mathf.PI;
-            for (int i = 1; i < _capacity; i++)
+            //_bound = row.GetComponent<MeshRenderer>().bounds;
+            //_length = Mathf.Sqrt(_bound.size.x * _bound.size.x + _bound.size.z * _bound.size.z);
+            _length = GetLength(row.GetComponent<MeshFilter>().mesh, row.name) * 393.70f;
+            if (_length > 0)
             {
-                Transform slot = Instantiate(BookSlotPrefab, BookSlotParent);
-                slot.name = row.name + "book" + i;
-                slot.position = row.position;
-                slot.RotateAround(_center, Vector3.up, _angleDelta * i);
-                _direction = new Vector3(_center.x - slot.position.x, 0, _center.z - slot.position.z);
-                slot.rotation = Quaternion.LookRotation(_direction);
-                _remain -- ;
-                if (_remain <= 0) return _remain;
+                _capacity = (int)(_length / distanceOfBook);
+                _angleDelta = Mathf.Asin(_length / radius / 2f) / (float)_capacity * 360 / Mathf.PI;
+                for (int i = 1; i < _capacity; i++)
+                {
+                    Transform slot = Instantiate(BookSlotPrefab, BookSlotParent);
+                    slot.name = row.name + "book" + i;
+                    slot.position = row.position;
+                    slot.RotateAround(_center, Vector3.up, _angleDelta * i);
+                    _direction = new Vector3(_center.x - slot.position.x, 0, _center.z - slot.position.z);
+                    slot.rotation = Quaternion.LookRotation(_direction);
+                    _remain--;
+                    if (_remain <= 0) return _remain;
+                }
             }
         }
         return _remain;
+    }
+    private float GetLength(Mesh mesh, string name)
+    {
+        List<Vector3> endPoints = new List<Vector3>();
+        foreach(int i in mesh.triangles)
+        {
+            if (mesh.triangles.Count(x => x == i) == 1) endPoints.Add(mesh.vertices[i]);
+        }
+        if(endPoints.Count == 2)
+        {
+            return Mathf.Sqrt((endPoints[0].x - endPoints[1].x) * (endPoints[0].x - endPoints[1].x)
+                + (endPoints[0].y - endPoints[1].y) * (endPoints[0].y - endPoints[1].y));
+        }
+        else
+        {
+            if (flag)
+            {
+                flag = false;
+                Debug.Log($"{name}: {mesh.vertexCount}");
+                Debug.Log(string.Join(",", mesh.triangles));
+            }
+            Debug.LogError($"Find mesh endpoints count Error: {endPoints.Count}");
+            return -1;
+        }
     }
 }
