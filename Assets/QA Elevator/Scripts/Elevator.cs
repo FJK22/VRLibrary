@@ -111,8 +111,6 @@ public class Elevator : MonoBehaviour {
 				_elevatorManager = ElevatorsParent.GetComponent<ElevatorManager> ();
 			}
 		}
-
-
 		//SoundFX initialisation
 		SoundFX = new GameObject ().AddComponent<AudioSource>();
 		SoundFX.transform.parent = gameObject.transform;
@@ -175,15 +173,7 @@ public class Elevator : MonoBehaviour {
 			}
 		}
 
-		foreach (GameObject obj in GameObject.FindGameObjectsWithTag ("Elevator")) {
-			if(obj.transform.parent == gameObject.transform.parent){
-				
-				if(obj != gameObject){
-					Elevators.Add (obj);
-				}
-
-			}
-		}
+		
 
 		if (_elevatorManager) {
 			_elevatorManager.WasStarted += RandomInit;
@@ -194,7 +184,18 @@ public class Elevator : MonoBehaviour {
 	}
 
 	void RandomInit(){
-		if (_elevatorManager) {
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Elevator"))
+        {
+            if (obj.transform.parent == gameObject.transform.parent)
+            {
+                if (obj != gameObject)
+                {
+                    Elevators.Add(obj);
+                }
+
+            }
+        }
+        if (_elevatorManager) {
 			ElevatorFloor = _elevatorManager.InitialFloor;
 		} else {
 			ElevatorFloor = 1;
@@ -209,10 +210,9 @@ public class Elevator : MonoBehaviour {
 		if (inTrigger) {
 
 			RaycastHit[] hits;
-				if (Input.GetKeyDown (KeyCode.E)) {
-
-					hits = Physics.RaycastAll (PlayerCam.position, PlayerCam.forward, 3);
-
+				if (Input.GetMouseButtonDown(0)) {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					hits = Physics.RaycastAll (ray, 3);
 					for (int i = 0; i < hits.Length; i++) {
 						RaycastHit hit = hits [i];
 

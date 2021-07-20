@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class ElevatorManager : MonoBehaviour {
@@ -12,13 +10,20 @@ public class ElevatorManager : MonoBehaviour {
 	[HideInInspector]
 	public int _floor;
 	private Transform[] elevators;
-
+    public static ElevatorManager Instance;
 	// Use this for initialization
 	void Awake () {
+        if (Instance)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
 		if (RandomStartFloor) {
 			elevatorsCount = transform.childCount;
 			InitialFloor = Random.Range (1, elevatorsCount+1);
-			WasStarted ();
 		}
 	}
 }

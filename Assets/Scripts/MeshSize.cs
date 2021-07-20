@@ -10,6 +10,8 @@ public class MeshSize : MonoBehaviour
     public int totalBookCount = 100; // by other script set this befor start function excute
     [SerializeField] private Transform floor0; // this is floor0 transform. it is parent of all rows in floor0. 
     [SerializeField] private Transform floor1;
+    [SerializeField] private Transform elevator1;
+    [SerializeField] private Elevator ElevatorPrefab;
     [SerializeField] private Transform Roof;
     [SerializeField] private Transform CenterOrLibrary; // this is library circle center transform, you can use library object 
 
@@ -47,6 +49,7 @@ public class MeshSize : MonoBehaviour
                 _remain = FillInFloor(newFloor, _remain);
             }
         }
+        ElevatorManager.Instance.WasStarted();
         GC.Collect();
         return null;
     }
@@ -54,6 +57,11 @@ public class MeshSize : MonoBehaviour
     private Transform MakeNewFloor(int floorNum)
     {
         Transform newFloor = Instantiate(floor1.parent, floor1.parent.parent);
+        Elevator newElevator = Instantiate(ElevatorPrefab, elevator1.parent);
+        newElevator.transform.rotation = elevator1.rotation;
+        newElevator.transform.localScale = elevator1.localScale;
+        newElevator.CurrentFloor = floorNum;
+        newElevator.transform.position = elevator1.position + Vector3.up * 5 * (floorNum - 1);
         newFloor.position = floor1.parent.position + Vector3.up * 5 * (floorNum - 1);
         newFloor.name = "Floor" + floorNum;
         Transform row = newFloor.Find("Rows1");
