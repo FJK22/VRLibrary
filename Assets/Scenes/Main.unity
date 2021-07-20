@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 49740e5d45111104fad0af6c50da1b32, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 6abef838d2efa2147b0e245a0b04411e, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 02c672b159fec204aa5e29e92306b1a2, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -688,14 +688,6 @@ PrefabInstance:
     - target: {fileID: 4965080884302008, guid: 003726254e0f5a7488ba67e6b79ef4f1, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 23520419001976434, guid: 003726254e0f5a7488ba67e6b79ef4f1, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114216818834575526, guid: 003726254e0f5a7488ba67e6b79ef4f1, type: 3}
-      propertyPath: CloseDelay
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114216818834575526, guid: 003726254e0f5a7488ba67e6b79ef4f1, type: 3}
       propertyPath: CurrentFloor
@@ -1815,7 +1807,7 @@ MonoBehaviour:
   CenterOrLibrary: {fileID: 249313168}
   BookSlotPrefab: {fileID: 3422918694095810243, guid: 538332ce02e1d654eb61c6ef33763c4e, type: 3}
   BookSlotParent: {fileID: 172635487}
-  distanceOfBook: 0.145
+  distanceOfBook: 0.56
   radius: 0
 --- !u!114 &1113977749
 MonoBehaviour:

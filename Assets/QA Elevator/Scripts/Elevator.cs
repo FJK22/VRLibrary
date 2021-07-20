@@ -38,6 +38,7 @@ public class Elevator : MonoBehaviour {
 	private TextMesh TargetElvTextOutside;
 	public TextMesh TextOutside;
 	public TextMesh TextInside;
+    [SerializeField] Transform button0;
 
 	[Tooltip("If set to true, the Reflection Probe inside the elevator will be updated every frame, when the player near or inside the elevator. Can impact performance.")]
 	public bool UpdateReflectionEveryFrame = false;
@@ -80,6 +81,8 @@ public class Elevator : MonoBehaviour {
 	public AudioClip ElevatorError;
 	[Range(0, 1)]
 	public float ElevatorErrorVolume = 1;
+    
+
 
 	private AudioSource BtnSoundFX;
 
@@ -90,6 +93,8 @@ public class Elevator : MonoBehaviour {
     private CharacterController playerController;
     private static SphereCollider extraCollider;
 
+    private float hd = 0.08f;
+    private float wd = 0.04f;
 
 	// Use this for initialization
 	void Awake () {
@@ -122,11 +127,6 @@ public class Elevator : MonoBehaviour {
 		SoundFX.maxDistance = 10;
 		SoundFX.rolloffMode = AudioRolloffMode.Linear;
 		SoundFX.priority = 256;
-
-		//
-
-
-
 		DoorsAnim = gameObject.GetComponent<Animation> ();
 		AnimName = DoorsAnim.clip.name;
 
@@ -134,26 +134,16 @@ public class Elevator : MonoBehaviour {
 		if (GameObject.FindGameObjectWithTag (PlayerTag)) {
 
 			Player = GameObject.FindGameObjectWithTag (PlayerTag).GetComponent<Rigidbody>();
-
-
-
 			if(Player.gameObject.GetComponent<CapsuleCollider>()){
 				PlayerHeight = Player.gameObject.GetComponent<CapsuleCollider> ().height/2;
 				isRigidbodyCharacter = true;
 				isPlayer = true;
 			}else if(Player.gameObject.GetComponent<CharacterController>()){
-
-                //Unity 2019 fix
-
                 if (extraCollider == null) {
                     extraCollider = Player.gameObject.AddComponent<SphereCollider>();
                     extraCollider.radius = 0.001f;
                 }
-
                 playerController = Player.GetComponent<CharacterController>();
-
-                //
-
 				PlayerHeight = Player.gameObject.GetComponent<CharacterController> ().height/2 + Player.gameObject.GetComponent<CharacterController> ().skinWidth;
 				isRigidbodyCharacter = false;
 				isPlayer = true;
@@ -192,14 +182,39 @@ public class Elevator : MonoBehaviour {
                 {
                     Elevators.Add(obj);
                 }
-
+            }
+        }
+        int _count = Elevators.Count;
+        if(_count > 0)
+        {
+            if (_count > 6)
+            {
+                Vector3 startPos = button0.localPosition - new Vector3(0, Mathf.FloorToInt(_count / 2f) * hd / 2f, 0);
+                int remain = (_count + 1) % 2;
+                button0.localPosition = (remain == 1) ? startPos : startPos - new Vector3(wd, 0, 0 );
+                for (int i = 1; i <= _count; i++)
+                {
+                    Transform newButton = Instantiate(button0, button0.parent);
+                    newButton.localPosition = startPos + new Vector3(((i + remain) % 2 == 1) ? wd : -wd, Mathf.FloorToInt((i + remain) / 2f) * hd, 0);
+                    newButton.name = i.ToString();
+                }
+            }
+            else
+            {
+                Vector3 startPos = button0.localPosition - new Vector3(0, _count * hd / 2f, 0);
+                button0.localPosition = startPos;
+                for(int i = 1; i <= _count; i++)
+                {
+                    Transform newButton = Instantiate(button0, button0.parent);
+                    newButton.localPosition = startPos + new Vector3(0, i * hd, 0);
+                    newButton.name = i.ToString();
+                }
             }
         }
         if (_elevatorManager) {
 			ElevatorFloor = _elevatorManager.InitialFloor;
 		} else {
 			ElevatorFloor = 1;
-			//Debug.LogWarning ("No ElevatorManager has been found for '" + gameObject.name + "'. Initial floor will be set to 1. If you want to set your own floor or make it random, please make this object child to object with ElevatorManager script.");
 		}
 		TextOutside.text = ElevatorFloor.ToString();
 		TextInside.text = ElevatorFloor.ToString();
@@ -208,110 +223,107 @@ public class Elevator : MonoBehaviour {
 
 	void Update () {
 		if (inTrigger) {
-
 			RaycastHit[] hits;
-				if (Input.GetMouseButtonDown(0)) {
+			if (Input.GetMouseButtonDown(0)) {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					hits = Physics.RaycastAll (ray, 3);
-					for (int i = 0; i < hits.Length; i++) {
-						RaycastHit hit = hits [i];
+				hits = Physics.RaycastAll (ray, 3);
+				for (int i = 0; i < hits.Length; i++) {
+					RaycastHit hit = hits [i];
 
-					if (hit.transform.tag == "ElevatorButtonOpen" && !isOpen) {
-						BtnSoundFX.clip = ElevatorBtn;
-						BtnSoundFX.volume = ElevatorBtnVolume;
-						BtnSoundFX.Play ();
-						ElevatorOpenButton = hit.transform.GetComponent<MeshRenderer> ();
-						ElevatorOpenButton.enabled = true;
+				if (hit.transform.tag == "ElevatorButtonOpen" && !isOpen) {
+					BtnSoundFX.clip = ElevatorBtn;
+					BtnSoundFX.volume = ElevatorBtnVolume;
+					BtnSoundFX.Play ();
+					ElevatorOpenButton = hit.transform.GetComponent<MeshRenderer> ();
+					ElevatorOpenButton.enabled = true;
 
-						isOpen = true;
-						Invoke ("DoorsOpening", OneFloorTime * Mathf.Abs (CurrentFloor - ElevatorFloor) + OpenDelay);
+					isOpen = true;
+					Invoke ("DoorsOpening", OneFloorTime * Mathf.Abs (CurrentFloor - ElevatorFloor) + OpenDelay);
 
-						FloorCount = ElevatorFloor;
-						ElevatorFloor = CurrentFloor;
+					FloorCount = ElevatorFloor;
+					ElevatorFloor = CurrentFloor;
 
+					foreach (GameObject elv in Elevators) {
+						Elevator elvScipt = (Elevator)elv.GetComponent (typeof(Elevator));
+						elvScipt.ElevatorFloor = CurrentFloor;
+					}
+
+					StartCoroutine ("FloorsCounter");
+				}
+
+				if (hit.transform.tag == "ElevatorNumericButton" && !Moving) {
+					InputFloor += hit.transform.name;
+					hit.transform.GetComponent<MeshRenderer> ().enabled = true;
+					ElevatorNumericButtons.Add (hit.transform.GetComponent<MeshRenderer> ());
+					BtnSoundFX.clip = ElevatorBtn;
+					BtnSoundFX.volume = ElevatorBtnVolume;
+					BtnSoundFX.Play ();
+				//}
+
+				//if (hit.transform.tag == "ElevatorGoButton" && !Moving) {
+						
+					if (InputFloor != "" && InputFloor.Length < 4) {
+						if (InputFloor == "0-1") {
+							InputFloor = "-99";
+						}
+						TargetFloor = int.Parse (InputFloor);
+							
 						foreach (GameObject elv in Elevators) {
 							Elevator elvScipt = (Elevator)elv.GetComponent (typeof(Elevator));
-							elvScipt.ElevatorFloor = CurrentFloor;
+							if (elvScipt.CurrentFloor == TargetFloor) {
+								ElvFound = true;
+								TargetElvAnim = elv.GetComponent<Animation> ();
+								TargetElvTextInside = elv.GetComponent<Elevator> ().TextInside;
+								TargetElvTextOutside = elv.GetComponent<Elevator> ().TextOutside;
+								BtnSoundFX.clip = ElevatorBtn;
+								BtnSoundFX.volume = ElevatorBtnVolume;
+								BtnSoundFX.Play ();
+								ElevatorFloor = TargetFloor;
+								elvScipt.ElevatorFloor = TargetFloor;
+
+								FloorCount = CurrentFloor;
+
+								if (CurrentFloor != ElevatorFloor) {
+									if (elvScipt.isReflectionProbe) {
+										if (elvScipt.UpdateReflectionEveryFrame) {
+											elvScipt.probe.RenderProbe ();
+										}
+									}
+									Invoke ("ElevatorGO", 1);
+									ElevatorGoBtn = hit.transform.GetComponent<MeshRenderer> ();
+									ElevatorGoBtn.enabled = true;
+									Moving = true;
+
+								} else {
+									DoorsOpening ();
+								}
+								InputFloor = "";
+							} else {
+									
+							}
 						}
-
-						StartCoroutine ("FloorsCounter");
-					}
-
-					if (hit.transform.tag == "ElevatorNumericButton" && !Moving) {
-						InputFloor += hit.transform.name;
-						hit.transform.GetComponent<MeshRenderer> ().enabled = true;
-						ElevatorNumericButtons.Add (hit.transform.GetComponent<MeshRenderer> ());
-						BtnSoundFX.clip = ElevatorBtn;
-						BtnSoundFX.volume = ElevatorBtnVolume;
+					} else {
+						ButtonsReset ();
+						InputFloor = "";
+						BtnSoundFX.clip = ElevatorError;
+						BtnSoundFX.volume = ElevatorErrorVolume;
 						BtnSoundFX.Play ();
 					}
-
-					if (hit.transform.tag == "ElevatorGoButton" && !Moving) {
-						
-						if (InputFloor != "" && InputFloor.Length < 4) {
-							if (InputFloor == "0-1") {
-								InputFloor = "-99";
-							}
-							TargetFloor = int.Parse (InputFloor);
-							
-							foreach (GameObject elv in Elevators) {
-								Elevator elvScipt = (Elevator)elv.GetComponent (typeof(Elevator));
-								if (elvScipt.CurrentFloor == TargetFloor) {
-									ElvFound = true;
-									TargetElvAnim = elv.GetComponent<Animation> ();
-									TargetElvTextInside = elv.GetComponent<Elevator> ().TextInside;
-									TargetElvTextOutside = elv.GetComponent<Elevator> ().TextOutside;
-									BtnSoundFX.clip = ElevatorBtn;
-									BtnSoundFX.volume = ElevatorBtnVolume;
-									BtnSoundFX.Play ();
-									ElevatorFloor = TargetFloor;
-									elvScipt.ElevatorFloor = TargetFloor;
-
-									FloorCount = CurrentFloor;
-
-									if (CurrentFloor != ElevatorFloor) {
-										if (elvScipt.isReflectionProbe) {
-											if (elvScipt.UpdateReflectionEveryFrame) {
-												elvScipt.probe.RenderProbe ();
-											}
-										}
-										Invoke ("ElevatorGO", 1);
-										ElevatorGoBtn = hit.transform.GetComponent<MeshRenderer> ();
-										ElevatorGoBtn.enabled = true;
-										Moving = true;
-
-									} else {
-										DoorsOpening ();
-									}
-									InputFloor = "";
-								} else {
-									
-								}
-							}
-						} else {
-							ButtonsReset ();
-							InputFloor = "";
-							BtnSoundFX.clip = ElevatorError;
-							BtnSoundFX.volume = ElevatorErrorVolume;
-							BtnSoundFX.Play ();
-						}
-						if (!ElvFound) {
-							ButtonsReset ();
-							InputFloor = "";
-							BtnSoundFX.clip = ElevatorError;
-							BtnSoundFX.volume = ElevatorErrorVolume;
-							BtnSoundFX.Play ();
-						}
-						if (TargetFloor != CurrentFloor) {
-							DoorsClosing ();
-						} else if (!isOpen) {
-							DoorsOpening ();
-						}
+					if (!ElvFound) {
+						ButtonsReset ();
+						InputFloor = "";
+						BtnSoundFX.clip = ElevatorError;
+						BtnSoundFX.volume = ElevatorErrorVolume;
+						BtnSoundFX.Play ();
+					}
+					if (TargetFloor != CurrentFloor) {
+						DoorsClosing ();
+					} else if (!isOpen) {
+						DoorsOpening ();
 					}
 				}
-			}
-		
-
+			    }
+		    }
 			if(SpeedUp){
 				if (SoundFX.volume < ElevatorMoveVolume) {
 					SoundFX.volume += 0.9f * Time.deltaTime;
@@ -322,7 +334,6 @@ public class Elevator : MonoBehaviour {
 					SoundFX.pitch += 0.9f * Time.deltaTime;
 				}
 			}
-
 			if(SlowDown){
 				if (SoundFX.volume > 0) {
 					SoundFX.volume -= 0.9f * Time.deltaTime;

@@ -112,9 +112,7 @@ public class apijson : MonoBehaviour
                                 {
                                     break;
                                 }
-
                                 j++; //founded the value of sorted books
-
                             }
                             obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().book = r.books[j];
                         }

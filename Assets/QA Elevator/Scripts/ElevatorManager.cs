@@ -9,7 +9,6 @@ public class ElevatorManager : MonoBehaviour {
 	public UnityAction WasStarted;
 	[HideInInspector]
 	public int _floor;
-	private Transform[] elevators;
     public static ElevatorManager Instance;
 	// Use this for initialization
 	void Awake () {
