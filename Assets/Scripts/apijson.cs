@@ -96,26 +96,26 @@ public class apijson : MonoBehaviour
 
                         Array.Sort(bookprimarytext);
 
-                        //for (int i = 0; i < r.books.Count; i++)
-                        //{
-                        //    // int j = i;
-                        //    obj = Instantiate(prefab, positionmarker[i].transform.position, positionmarker[i].transform.rotation);
-                        //    obj.transform.Rotate(Vector3.up, -90);
-                        //    obj.transform.Translate(Vector3.right * 0.2f);
-                        //    obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().arrow.SetActive(true);
-                        //    // obj.gameObject.tag = positionmarker[i].name;
-                        //    obj.gameObject.name = "Book";
-                        //    int j = 0;
-                        //    while (true)  //finding the value of first book 
-                        //    {
-                        //        if (r.books[j].primary_call == bookprimarytext[i])  //as we have sorted the bookprimarytext we will now sort all books according to this
-                        //        {
-                        //            break;
-                        //        }
-                        //        j++; //founded the value of sorted books
-                        //    }
-                        //    obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().book = r.books[j];
-                        //}
+                        for (int i = 0; i < r.books.Count; i++)
+                        {
+                            // int j = i;
+                            obj = Instantiate(prefab, positionmarker[i].transform.position, positionmarker[i].transform.rotation);
+                            obj.transform.Rotate(Vector3.up, -90);
+                            obj.transform.Translate(Vector3.right * 0.2f);
+                            obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().arrow.SetActive(true);
+                            // obj.gameObject.tag = positionmarker[i].name;
+                            obj.gameObject.name = "Book";
+                            int j = 0;
+                            while (true)  //finding the value of first book 
+                            {
+                                if (r.books[j].primary_call == bookprimarytext[i])  //as we have sorted the bookprimarytext we will now sort all books according to this
+                                {
+                                    break;
+                                }
+                                j++; //founded the value of sorted books
+                            }
+                            obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().book = r.books[j];
+                        }
 
                         progressbar.value = 1;
                         yield return new WaitForSeconds(0.5f);
