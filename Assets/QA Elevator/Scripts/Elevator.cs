@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Elevator : MonoBehaviour {
 	private bool inTrigger = false;
@@ -197,6 +198,7 @@ public class Elevator : MonoBehaviour {
                     Transform newButton = Instantiate(button0, button0.parent);
                     newButton.localPosition = startPos + new Vector3(((i + remain) % 2 == 1) ? wd : -wd, Mathf.FloorToInt((i + remain) / 2f) * hd, 0);
                     newButton.name = i.ToString();
+                    newButton.GetChild(1).GetChild(0).GetComponent<Text>().text = i.ToString();
                 }
             }
             else
@@ -208,6 +210,7 @@ public class Elevator : MonoBehaviour {
                     Transform newButton = Instantiate(button0, button0.parent);
                     newButton.localPosition = startPos + new Vector3(0, i * hd, 0);
                     newButton.name = i.ToString();
+                    newButton.GetChild(1).GetChild(0).GetComponent<Text>().text = i.ToString();
                 }
             }
         }

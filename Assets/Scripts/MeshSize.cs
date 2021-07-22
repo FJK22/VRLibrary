@@ -79,8 +79,6 @@ public class MeshSize : MonoBehaviour
         Vector3[] _verts;
         foreach (Transform row in floor)
         {
-            //_bound = row.GetComponent<MeshRenderer>().bounds;
-            //_length = Mathf.Sqrt(_bound.size.x * _bound.size.x + _bound.size.z * _bound.size.z);
             _length = GetLength(row.GetComponent<MeshFilter>().mesh, row.name) * 393.70f;
             if (_length > 0)
             {
