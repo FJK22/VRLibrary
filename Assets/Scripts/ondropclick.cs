@@ -69,6 +69,9 @@ public class ondropclick : MonoBehaviour
 
     IEnumerator DropBook()
     {
+        var ui = GetComponent<imagetexturefromur>();
+        ui.Expand(false);
+
         float angle = Quaternion.Angle(rot, this.gameObject.transform.localRotation);
 
         if (angle > 0 || angle < 0)
@@ -84,8 +87,8 @@ public class ondropclick : MonoBehaviour
         temp.w = 0f;
         transform.localRotation = rot;
 
-        this.GetComponent<imagetexturefromur>().detailpanel.SetActive(false);
-        this.GetComponent<imagetexturefromur>().arrow.SetActive(false);
+        ui.detailpanel.SetActive(false);
+        ui.arrow.SetActive(false);
        
         iTween.MoveTo(this.transform.parent.gameObject, GameObject.FindObjectOfType<bookpickup>().tempbookloc, 3f);
         this.transform.parent.gameObject.transform.rotation = GameObject.FindObjectOfType<bookpickup>().tempbookrot;
@@ -94,7 +97,4 @@ public class ondropclick : MonoBehaviour
         GameObject.FindObjectOfType<bookpickup>().player.GetComponent<RigidbodyFirstPersonController>().enabled = true;
         GameObject.FindObjectOfType<bookpickup>().bookPicked = false;
     }
-
-
-
 }

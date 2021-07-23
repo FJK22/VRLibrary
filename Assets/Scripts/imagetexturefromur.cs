@@ -56,7 +56,7 @@ public class imagetexturefromur : MonoBehaviour
         isExpand = !isExpand;
         Expand(isExpand);
     }
-    private void Expand(bool flag)
+    public void Expand(bool flag)
     {
         if (flag)
         {
