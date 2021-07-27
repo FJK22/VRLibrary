@@ -89,7 +89,8 @@ public class ondropclick : MonoBehaviour
 
         ui.detailpanel.SetActive(false);
         ui.arrow.SetActive(false);
-       
+        ui.arrow.transform.localEulerAngles = Vector3.zero;
+
         iTween.MoveTo(this.transform.parent.gameObject, GameObject.FindObjectOfType<bookpickup>().tempbookloc, 3f);
         this.transform.parent.gameObject.transform.rotation = GameObject.FindObjectOfType<bookpickup>().tempbookrot;
        

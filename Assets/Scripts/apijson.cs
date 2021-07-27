@@ -98,12 +98,10 @@ public class apijson : MonoBehaviour
 
                         for (int i = 0; i < r.books.Count; i++)
                         {
-                            // int j = i;
                             obj = Instantiate(prefab, positionmarker[i].transform.position, positionmarker[i].transform.rotation);
                             obj.transform.Rotate(Vector3.up, -90);
                             obj.transform.Translate(Vector3.right * 0.2f);
                             obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().arrow.SetActive(true);
-                            // obj.gameObject.tag = positionmarker[i].name;
                             obj.gameObject.name = "Book";
                             int j = 0;
                             while (true)  //finding the value of first book 

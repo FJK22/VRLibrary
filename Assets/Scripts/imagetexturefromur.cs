@@ -28,7 +28,6 @@ public class imagetexturefromur : MonoBehaviour
     }
     public void Startating()
     {
-        
         textBoxs[0].text = book.author;
         textBoxs[1].text = book.title;
         textBoxs[2].text = book.publisher;
@@ -77,5 +76,10 @@ public class imagetexturefromur : MonoBehaviour
         textBoxs[5].transform.parent.parent.parent.parent.gameObject.SetActive(flag);
         textBoxs[6].transform.parent.parent.parent.parent.gameObject.SetActive(flag);
         textBoxs[7].transform.parent.parent.parent.parent.gameObject.SetActive(flag);
+    }
+    public void ArrowButtonClick()
+    {
+        DetailPan.gameObject.SetActive(!DetailPan.gameObject.activeSelf);
+        arrow.transform.localEulerAngles = (DetailPan.gameObject.activeSelf) ? new Vector3(0, 180, 0) : Vector3.zero;
     }
 }
