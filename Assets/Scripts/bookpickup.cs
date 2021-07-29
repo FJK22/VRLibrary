@@ -14,6 +14,7 @@ public class bookpickup : MonoBehaviour
     public List<GameObject> activeBooks;
     public bool checkclicked = false;
     public bool bookPicked = false;
+    public Canvas SearchCanvas;
 
     public void changeclick()
     {
@@ -46,6 +47,10 @@ public class bookpickup : MonoBehaviour
                         img.detailpanel.SetActive(false);
                         hit.transform.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                         player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
+                    }
+                    if(hit.transform.gameObject.name == "MagnifyGlass")
+                    {
+                        SearchCanvas.enabled = !SearchCanvas.enabled;
                     }
                 }
             }

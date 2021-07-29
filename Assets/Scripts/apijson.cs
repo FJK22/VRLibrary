@@ -81,7 +81,6 @@ public class apijson : MonoBehaviour
                      Root r = new Root();
                      r = JsonConvert.DeserializeObject<Root>( webRequest.downloadHandler.text);
                     //Make request. Don't yield
-                   
                     if (r.status=="true")//checking that books have any value or not
                     {
                         int _bookCount = 100;// r.books.Count;
