@@ -44,12 +44,14 @@ public class SearchManager : MonoBehaviour
     }
     public void Search()
     {
+        ResultItem.turnedCount = 0;
         string key = SearchKey.text.Trim();
         LightTurnOn();
         foreach(var ri in Results)
         {
             ri.Clear();
         }
+        ResultParent.parent.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
         if(key != "" && apijson.books.Count > 0)
         {
             int count = 0;
@@ -77,7 +79,7 @@ public class SearchManager : MonoBehaviour
     {
         foreach(var l in lights)
         {
-            l.enabled = isOn;
+            l.intensity = (isOn) ? 1f: 0.2f;
         }
     }
 }

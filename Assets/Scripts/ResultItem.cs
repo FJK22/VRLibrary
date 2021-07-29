@@ -24,7 +24,7 @@ public class ResultItem : MonoBehaviour
             }
         }
     }
-    static int turnedCount;
+    public static int turnedCount;
     private void Start()
     {
         SpotButton.onClick.AddListener(delegate { SportClick(); });
