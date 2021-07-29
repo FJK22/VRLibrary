@@ -15,6 +15,7 @@ public class apijson : MonoBehaviour
     [SerializeField] GameObject prefab;
     [SerializeField] GameObject group1;
     public List<GameObject> positionmarker;
+    public static List<imagetexturefromur> books;
     public GameObject obj;
     [SerializeField]
     GameObject logs;
@@ -24,7 +25,6 @@ public class apijson : MonoBehaviour
     public GameObject progresspanel;
     public GameObject player;
     float val = 0;
-
 
     //In this script I make the connection with api to get the book metadata
 
@@ -84,24 +84,27 @@ public class apijson : MonoBehaviour
                    
                     if (r.status=="true")//checking that books have any value or not
                     {
-                        MeshSize.Instance.totalBookCount = r.books.Count;
+                        int _bookCount = 100;// r.books.Count;
+                        MeshSize.Instance.totalBookCount = _bookCount;
                         yield return MeshSize.Instance.Init();
-                        string[] bookprimarytext = new string[r.books.Count];
-                        int count = (r.books.Count > group1.transform.childCount) ? group1.transform.childCount : r.books.Count;
-                        for (int i = 0; i < count; i++)
+                        string[] bookprimarytext = new string[_bookCount];
+                        _bookCount = (_bookCount > group1.transform.childCount) ? group1.transform.childCount : _bookCount;
+                        for (int i = 0; i < _bookCount; i++)
                         {
                             bookprimarytext[i] = r.books[i].primary_call;
                             positionmarker.Add(group1.transform.GetChild(i).gameObject);
                         }
-
                         Array.Sort(bookprimarytext);
 
-                        for (int i = 0; i < r.books.Count; i++)
+                        if (_bookCount > 0) books = new List<imagetexturefromur>();
+                        for (int i = 0; i < _bookCount; i++)
                         {
                             obj = Instantiate(prefab, positionmarker[i].transform.position, positionmarker[i].transform.rotation);
+                            obj.transform.SetParent(transform);
                             obj.transform.Rotate(Vector3.up, -90);
                             obj.transform.Translate(Vector3.right * 0.2f);
-                            obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().arrow.SetActive(true);
+                            imagetexturefromur itfu = obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>();
+                            itfu.arrow.SetActive(true);
                             obj.gameObject.name = "Book";
                             int j = 0;
                             while (true)  //finding the value of first book 
@@ -112,7 +115,8 @@ public class apijson : MonoBehaviour
                                 }
                                 j++; //founded the value of sorted books
                             }
-                            obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>().book = r.books[j];
+                            itfu.book = r.books[j];
+                            books.Add(itfu);
                         }
 
                         progressbar.value = 1;

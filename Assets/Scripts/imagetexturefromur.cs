@@ -16,6 +16,7 @@ public class imagetexturefromur : MonoBehaviour
     [SerializeField] TextMeshProUGUI MoreButtonText;
     [SerializeField] RectTransform MoreButtonIcon;
     [SerializeField] RectTransform DetailPan;
+    public Light SpotLight;
    private void Start()
     {
         courutineallowed = true;
@@ -80,6 +81,6 @@ public class imagetexturefromur : MonoBehaviour
     public void ArrowButtonClick()
     {
         DetailPan.gameObject.SetActive(!DetailPan.gameObject.activeSelf);
-        arrow.transform.localEulerAngles = (DetailPan.gameObject.activeSelf) ? new Vector3(0, 180, 0) : Vector3.zero;
+        arrow.transform.localEulerAngles = (DetailPan.gameObject.activeSelf) ? new Vector3(0, 0, 180) : Vector3.zero;
     }
 }
