@@ -20,7 +20,8 @@ public class ResultItem : MonoBehaviour
             LightImage.enabled = isTurnOn;
             if (Book != null)
             {
-                Book.SpotLight.enabled = isTurnOn;
+                Book.particle.gameObject.SetActive(isTurnOn);
+                if (isTurnOn) Book.particle.Play();
             }
         }
     }

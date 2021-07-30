@@ -4,28 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - book
-  - Fire
-  - plane3
-  - plane7
-  - plane1
-  - plane2
-  - plane5
-  - plane4
-  - plane6
-  - shelf1
-  - shelf2
-  - shelf3
-  - shelf4
-  - shelf5
-  - shelf6
-  - shelf7
-  - cubehumai
-  - F0Shelf1Row1book1
-  - Elevator
-  - ElevatorButtonOpen
-  - ElevatorNumericButton
-  - ElevatorGoButton
+  - Shootable
   layers:
   - Default
   - TransparentFX
@@ -35,9 +14,9 @@ TagManager:
   - UI
   - 
   - 
-  - Button
-  - 
-  - 
+  - Lighting
+  - Ground
+  - Postprocessing
   - 
   - 
   - 
@@ -60,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Fire
+    uniqueID: 3804908061
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -83,7 +83,7 @@ public class apijson : MonoBehaviour
                     //Make request. Don't yield
                     if (r.status=="true")//checking that books have any value or not
                     {
-                        int _bookCount = 100;// r.books.Count;
+                        int _bookCount = r.books.Count;
                         MeshSize.Instance.totalBookCount = _bookCount;
                         yield return MeshSize.Instance.Init();
                         string[] bookprimarytext = new string[_bookCount];

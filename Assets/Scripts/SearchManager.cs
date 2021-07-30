@@ -79,7 +79,7 @@ public class SearchManager : MonoBehaviour
     {
         foreach(var l in lights)
         {
-            l.intensity = (isOn) ? 1f: 0.2f;
+            l.intensity = (isOn) ? 1f: 0.4f;
         }
     }
 }

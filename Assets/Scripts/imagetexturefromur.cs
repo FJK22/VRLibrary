@@ -16,8 +16,8 @@ public class imagetexturefromur : MonoBehaviour
     [SerializeField] TextMeshProUGUI MoreButtonText;
     [SerializeField] RectTransform MoreButtonIcon;
     [SerializeField] RectTransform DetailPan;
-    public Light SpotLight;
-   private void Start()
+    public ParticleSystem particle;
+    private void Start()
     {
         courutineallowed = true;
         if (book.book_cover_filename != null && book.book_cover_filename != "")
