@@ -82,4 +82,9 @@ public class SearchManager : MonoBehaviour
             l.intensity = (isOn) ? 1f: 0.4f;
         }
     }
+    public void Clear()
+    {
+        SearchKey.text = "";
+        Search();
+    }
 }
