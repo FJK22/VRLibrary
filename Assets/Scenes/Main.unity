@@ -3301,6 +3301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe49c58abfc60f4fb1638ce3dee6eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 480175964}
   checkdefinearea: 0
   player: {fileID: 11016528}
   newlocationobject: {fileID: 506078639}
@@ -5388,7 +5389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_BlockingObjects: 3
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
