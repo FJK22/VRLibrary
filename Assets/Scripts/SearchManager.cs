@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class SearchManager : MonoBehaviour
 {
@@ -73,6 +74,7 @@ public class SearchManager : MonoBehaviour
             {
                 NoResult.gameObject.SetActive(true);
             }
+            SearchKey.DeactivateInputField();
         }
     }
     public void LightTurnOn(bool isOn = true)
