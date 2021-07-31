@@ -55,10 +55,6 @@ public class bookpickup : MonoBehaviour
                     if(hit.transform.gameObject.name == "MagnifyGlass")
                     {
                         SearchCanvas.enabled = !SearchCanvas.enabled;
-                        if (SearchCanvas.enabled)
-                        {
-                            
-                        }
                     }
                 }
             }

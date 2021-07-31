@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class SearchManager : MonoBehaviour
 {
@@ -9,12 +7,16 @@ public class SearchManager : MonoBehaviour
     [SerializeField] InputField SearchKey;
     [SerializeField] Text NoResult;
     [SerializeField] Transform LightParent;
-
     private Light[] lights;
     List<ResultItem> Results;
     Transform player;
-    
+    public static bool isInputing = false;
     static public SearchManager Instance;
+    public bool IsInputing
+    {
+        get { return isInputing; }
+        set { isInputing = value; }
+    }
     void Awake()
     {
         if (Instance)
@@ -33,7 +35,7 @@ public class SearchManager : MonoBehaviour
         if (ResultParent)
         {
             Results = new List<ResultItem>();
-            foreach(Transform result in ResultParent)
+            foreach (Transform result in ResultParent)
             {
                 Results.Add(result.GetComponent<ResultItem>());
             }
@@ -41,31 +43,31 @@ public class SearchManager : MonoBehaviour
     }
     private void Update()
     {
-        if(player)transform.LookAt(player);
+        if (player) transform.LookAt(player);
     }
     public void Search()
     {
+        isInputing = false;
         ResultItem.turnedCount = 0;
         string key = SearchKey.text.Trim();
         LightTurnOn();
-        foreach(var ri in Results)
+        foreach (var ri in Results)
         {
             ri.Clear();
         }
-        ResultParent.parent.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
-        if(key != "" && apijson.books.Count > 0)
+        if (key != "" && apijson.books.Count > 0)
         {
             int count = 0;
-            foreach(var b in apijson.books)
+            foreach (var b in apijson.books)
             {
-                if(b.book.title.Contains(key) || b.book.author.Contains(key))
+                if (b.book.title.Contains(key) || b.book.author.Contains(key))
                 {
                     Results[count].SetValue((count + 1).ToString(), b);
                     count++;
                 }
                 if (count >= Results.Count) break;
             }
-            if(count > 0)
+            if (count > 0)
             {
                 NoResult.gameObject.SetActive(false);
                 ResultParent.sizeDelta = new Vector2(0, 100 * count);
@@ -75,13 +77,14 @@ public class SearchManager : MonoBehaviour
                 NoResult.gameObject.SetActive(true);
             }
             SearchKey.DeactivateInputField();
+            ResultParent.parent.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
         }
     }
     public void LightTurnOn(bool isOn = true)
     {
-        foreach(var l in lights)
+        foreach (var l in lights)
         {
-            l.intensity = (isOn) ? 1f: 0.4f;
+            l.intensity = (isOn) ? 1f : 0.4f;
         }
     }
     public void Clear()
