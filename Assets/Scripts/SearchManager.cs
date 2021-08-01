@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 public class SearchManager : MonoBehaviour
@@ -57,10 +58,11 @@ public class SearchManager : MonoBehaviour
         }
         if (key != "" && apijson.books.Count > 0)
         {
+            Regex regex = new Regex(key, RegexOptions.IgnoreCase);
             int count = 0;
             foreach (var b in apijson.books)
             {
-                if (b.book.title.Contains(key) || b.book.author.Contains(key))
+                if (regex.IsMatch(b.book.title) || regex.IsMatch(b.book.author))
                 {
                     Results[count].SetValue((count + 1).ToString(), b);
                     count++;
