@@ -35,6 +35,7 @@ public class bookpickup : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit, 100.0f))
                 {
+                    Debug.Log(hit.transform.gameObject.name);
                     if (hit.transform.gameObject.name == "Book")
                     {
                         bookPicked = true;

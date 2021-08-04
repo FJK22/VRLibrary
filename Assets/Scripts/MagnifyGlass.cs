@@ -17,6 +17,7 @@ public class MagnifyGlass : MonoBehaviour, IPointerClickHandler
             {
                 mg.DORotate(SearchPlace.eulerAngles, 2);
             });
+            SearchManager.Instance.LightTurnOn();
         }
         else
         {

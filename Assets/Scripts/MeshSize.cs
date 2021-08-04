@@ -10,12 +10,16 @@ public class MeshSize : MonoBehaviour
     public int totalBookCount = 100; // by other script set this befor start function excute
     [SerializeField] private Transform floor0; // this is floor0 transform. it is parent of all rows in floor0. 
     [SerializeField] private Transform floor1;
+    [SerializeField] private Transform miniFloor1;
+
     [SerializeField] private Transform elevator1;
     [SerializeField] private Elevator ElevatorPrefab;
     [SerializeField] private Transform Roof;
     [SerializeField] private Transform CenterOrLibrary; // this is library circle center transform, you can use library object 
 
     [SerializeField] private Transform BookSlotPrefab; // bookslot prefab for instantiating
+    [SerializeField] private Transform MiniBookPrefab;
+    [SerializeField] private Transform MiniBookParent;
     [SerializeField] private Transform BookSlotParent; // parent of bookslot gameobejct newly generated.
     
     [Range(0.1f, 1f)]
@@ -46,6 +50,7 @@ public class MeshSize : MonoBehaviour
             {
                 floorNum++;
                 Transform newFloor = MakeNewFloor(floorNum);
+                Transform newMiniFloor = MakeNewMiniFloor(floorNum);
                 _remain = FillInFloor(newFloor, _remain);
             }
         }
@@ -67,6 +72,14 @@ public class MeshSize : MonoBehaviour
         Transform row = newFloor.Find("Rows1");
         Roof.Translate(Vector3.back * 5);
         return row;
+    }
+
+    private Transform MakeNewMiniFloor(int floorNum)
+    {
+        Transform newFloor = Instantiate(miniFloor1, miniFloor1.parent);
+        newFloor.position = miniFloor1.position + Vector3.up * 0.25f * (floorNum - 1);
+        newFloor.name = "Floor" + floorNum;
+        return newFloor;
     }
 
     private int FillInFloor(Transform floor, int _remain)
@@ -92,6 +105,10 @@ public class MeshSize : MonoBehaviour
                     slot.RotateAround(_center, Vector3.up, _angleDelta * i);
                     _direction = new Vector3(_center.x - slot.position.x, 0, _center.z - slot.position.z);
                     slot.rotation = Quaternion.LookRotation(_direction);
+
+                    Transform miniBook = Instantiate(MiniBookPrefab, MiniBookParent);
+                    miniBook.localEulerAngles = slot.localEulerAngles;
+                    miniBook.localPosition = slot.localPosition;
                     _remain--;
                     if (_remain <= 0) return _remain;
                 }

@@ -26,7 +26,6 @@ public class apijson : MonoBehaviour
     float val = 0;
 
     //In this script I make the connection with api to get the book metadata
-
     void Start()
     {
         progresspanel.SetActive(true);
@@ -40,6 +39,7 @@ public class apijson : MonoBehaviour
         positionmarker.Add(group1.transform.GetChild(i).gameObject);
         positionmarker = positionmarker.OrderBy(tile => tile.name).ToList(); // done
     }
+
     IEnumerator GetRequest(string uri)
     {
         yield return new WaitForSeconds(0.1f);
@@ -73,7 +73,7 @@ public class apijson : MonoBehaviour
                     //Make request. Don't yield
                     if (r.status=="true")//checking that books have any value or not
                     {
-                        int _bookCount = 100;// r.books.Count;
+                        int _bookCount = r.books.Count;
                         MeshSize.Instance.totalBookCount = _bookCount;
                         yield return MeshSize.Instance.Init();
                         string[] bookprimarytext = new string[_bookCount];
