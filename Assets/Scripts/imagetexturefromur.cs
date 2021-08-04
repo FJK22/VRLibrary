@@ -23,7 +23,6 @@ public class imagetexturefromur : MonoBehaviour
         if (book.book_cover_filename != null && book.book_cover_filename != "")
         {
             TextureURL = "https://www.oxvrlibrary.com/upload_book_covers/" + book.book_cover_filename + ".png";
-            Debug.Log(TextureURL);
         }
         Startating();
     }
@@ -41,7 +40,6 @@ public class imagetexturefromur : MonoBehaviour
     }
     IEnumerator DownloadImage(string MediaUrl)
     {
-        Debug.Log(MediaUrl);
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl);
         yield return request.SendWebRequest();
         if (request.isNetworkError || request.isHttpError)

@@ -6,8 +6,8 @@ using UnityEngine.Networking;
 using TMPro;
 using System;
 using System.Linq;
-using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
+using DG.Tweening;
 
 public class apijson : MonoBehaviour
 {
@@ -21,7 +21,6 @@ public class apijson : MonoBehaviour
     GameObject logs;
     [SerializeField]
     TextMeshProUGUI logText;
-    public Slider progressbar;
     public GameObject progresspanel;
     public GameObject player;
     float val = 0;
@@ -30,15 +29,9 @@ public class apijson : MonoBehaviour
 
     void Start()
     {
-        // SetPositionMarker();
-        progressbar.value = 0;
         progresspanel.SetActive(true);
         player.GetComponent<RigidbodyFirstPersonController>().enabled = false;
         StartCoroutine(GetRequest("https://www.oxvrlibrary.com/api/fjAkl22m9bEpqs/apifj22qasywz/book/get_book/all")); // Api here: 
-    }
-    private void Update()
-    {
-        progresspanel.transform.GetChild(2).gameObject.transform.Rotate(new Vector3(0, 0, -300) * Time.deltaTime);
     }
 
     void SetPositionMarker()
@@ -47,7 +40,6 @@ public class apijson : MonoBehaviour
         positionmarker.Add(group1.transform.GetChild(i).gameObject);
         positionmarker = positionmarker.OrderBy(tile => tile.name).ToList(); // done
     }
-
     IEnumerator GetRequest(string uri)
     {
         yield return new WaitForSeconds(0.1f);
@@ -56,8 +48,6 @@ public class apijson : MonoBehaviour
             webRequest.SendWebRequest();
             while (!webRequest.isDone)
             {
-               // progressbar.value = webRequest.downloadProgress;
-                // Debug.Log("Downloading : " + webRequest.downloadProgress  + "%");
                 yield return null;
             }
             switch (webRequest.result)
@@ -117,12 +107,11 @@ public class apijson : MonoBehaviour
                             itfu.book = r.books[j];
                             books.Add(itfu);
                         }
-
-                        progressbar.value = 1;
-                        yield return new WaitForSeconds(0.5f);
-                        progresspanel.SetActive(false);
+                        progresspanel.GetComponent<CanvasGroup>().DOFade(0, 2).OnComplete(() =>
+                        {
+                            progresspanel.SetActive(false);
+                        });
                         player.GetComponent<RigidbodyFirstPersonController>().enabled = true;
-
                     }
                     else
                     {
@@ -134,8 +123,7 @@ public class apijson : MonoBehaviour
         }
     }
 }
-
-    public class Book
+public class Book
 {
     public string id { get; set; }
     public string current_sub_library_id { get; set; }
@@ -171,11 +159,9 @@ public class apijson : MonoBehaviour
     public string solo_link { get; set; }
     public string book_cover_filename { get; set; }
 }
-
 public class Root
 {
     public string status { get; set; }
     public string message { get; set; }
     public List<Book> books { get; set; }
 }
-
