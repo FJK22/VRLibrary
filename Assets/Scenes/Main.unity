@@ -4359,7 +4359,6 @@ MonoBehaviour:
   totalBookCount: 100
   floor0: {fileID: 1692886357}
   floor1: {fileID: 1821270348}
-  miniFloor0: {fileID: 7551499069993384755}
   miniFloor1: {fileID: 7385990206586998135}
   elevator1: {fileID: 38932496}
   ElevatorPrefab: {fileID: 114216818834575526, guid: 003726254e0f5a7488ba67e6b79ef4f1,
@@ -4370,6 +4369,7 @@ MonoBehaviour:
     type: 3}
   MiniBookPrefab: {fileID: 4463674943485932185, guid: 104352768d5c1714e907f4181292f02d,
     type: 3}
+  MiniBookParent: {fileID: 1731739102}
   BookSlotParent: {fileID: 172635487}
   distanceOfBook: 0.139
   radius: 0
