@@ -77,7 +77,7 @@ public class MeshSize : MonoBehaviour
     private Transform MakeNewMiniFloor(int floorNum)
     {
         Transform newFloor = Instantiate(miniFloor1, miniFloor1.parent);
-        newFloor.position = miniFloor1.position + Vector3.up * 0.25f * (floorNum - 1);
+        newFloor.position = miniFloor1.position + Vector3.up * 0.5f * (floorNum - 1);
         newFloor.name = "Floor" + floorNum;
         return newFloor;
     }
