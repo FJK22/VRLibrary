@@ -44,7 +44,7 @@ public class SearchManager : MonoBehaviour
     }
     private void Update()
     {
-        if (player) transform.LookAt(player);
+        //if (player) transform.LookAt(player);
     }
     public void Search()
     {
