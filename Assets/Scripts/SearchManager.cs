@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SearchManager : MonoBehaviour
 {
     [SerializeField] RectTransform ResultParent;
-    [SerializeField] InputField SearchKey;
+    public InputField SearchKey;
     [SerializeField] Text NoResult;
     [SerializeField] Transform LightParent;
     private Light[] lights;
