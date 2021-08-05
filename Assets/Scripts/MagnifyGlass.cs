@@ -32,6 +32,13 @@ public class MagnifyGlass : MonoBehaviour, IPointerClickHandler
             SearchCanvas.transform.parent.Find("Particle").gameObject.SetActive(false);
         }
         SearchCanvas.enabled = !SearchCanvas.enabled;
-        if (SearchCanvas.enabled) SearchManager.Instance.SearchKey.ActivateInputField();
+        if (SearchCanvas.enabled)
+        {
+            SearchManager.Instance.SearchKey.ActivateInputField();
+        }
+        else
+        {
+            SearchManager.Instance.Clear();
+        }
     }
 }

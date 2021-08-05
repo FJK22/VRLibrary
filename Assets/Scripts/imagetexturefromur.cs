@@ -49,7 +49,11 @@ public class imagetexturefromur : MonoBehaviour
             //  Debug.Log(request.error);
         }
         else
-        this.gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+        {
+            var texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+            gameObject.GetComponent<Renderer>().material.mainTexture = texture;
+            minibook.GetChild(0).GetComponent<Renderer>().material.mainTexture = texture;
+        }
     }
     public void ExpandToggle()
     {
