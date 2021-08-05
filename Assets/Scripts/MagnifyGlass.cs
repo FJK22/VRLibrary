@@ -1,30 +1,33 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 public class MagnifyGlass : MonoBehaviour, IPointerClickHandler
 {
     public Canvas SearchCanvas;
-    public Transform mg;
-    public Transform SearchPlace;
+    public Transform Mgposition;
+    Transform OriginPlace;
 
+    private void Start()
+    {
+        OriginPlace = transform.parent;
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (SearchCanvas.enabled)
         {
-            mg.SetParent(SearchPlace);
-            mg.DOMove(SearchPlace.position, 2).OnStart(() =>
+            transform.SetParent(OriginPlace);
+            transform.DOMove(OriginPlace.position, 1).OnStart(() =>
             {
-                mg.DORotate(SearchPlace.eulerAngles, 2);
+                transform.DORotate(OriginPlace.eulerAngles, 1);
             });
             SearchManager.Instance.LightTurnOn();
         }
         else
         {
-            mg.SetParent(Camera.main.transform.GetChild(0));
-            mg.DOMove(Camera.main.transform.GetChild(0).position, 0.5f).OnStart(() =>
+            transform.SetParent(SearchCanvas.transform);
+            transform.DOMove(SearchCanvas.transform.GetChild(0).position, 0.5f).OnStart(() =>
             {
-                mg.DORotate(Camera.main.transform.GetChild(0).eulerAngles, 0.5f);
+                transform.DORotate(SearchCanvas.transform.GetChild(0).eulerAngles, 0.5f);
             });
             SearchCanvas.transform.parent.Find("Particle").gameObject.SetActive(false);
         }

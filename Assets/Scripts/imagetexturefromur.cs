@@ -17,6 +17,8 @@ public class imagetexturefromur : MonoBehaviour
     [SerializeField] RectTransform MoreButtonIcon;
     [SerializeField] RectTransform DetailPan;
     public ParticleSystem particle;
+    public Transform minibook;
+
     private void Start()
     {
         courutineallowed = true;

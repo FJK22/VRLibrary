@@ -21,6 +21,7 @@ public class ResultItem : MonoBehaviour
             if (Book != null)
             {
                 Book.particle.gameObject.SetActive(isTurnOn);
+                Book.minibook.GetChild(0).gameObject.SetActive(isTurnOn);
                 if (isTurnOn) Book.particle.Play();
             }
         }
@@ -44,6 +45,7 @@ public class ResultItem : MonoBehaviour
     {
         ui.alpha = 0;
         IsTurnOn = false;
+        if (Book) Book.minibook.GetChild(0).gameObject.SetActive(false);
     }
     private void SportClick()
     {

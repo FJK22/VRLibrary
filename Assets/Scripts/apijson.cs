@@ -14,6 +14,7 @@ public class apijson : MonoBehaviour
     public float done = 0; //chechking for all books are loaded    
     [SerializeField] GameObject prefab;
     [SerializeField] GameObject group1;
+    [SerializeField] Transform MiniBookSlot;
     public List<GameObject> positionmarker;
     public static List<imagetexturefromur> books;
     public GameObject obj;
@@ -73,7 +74,7 @@ public class apijson : MonoBehaviour
                     //Make request. Don't yield
                     if (r.status=="true")//checking that books have any value or not
                     {
-                        int _bookCount = r.books.Count;
+                        int _bookCount = 100;//r.books.Count;
                         MeshSize.Instance.totalBookCount = _bookCount;
                         yield return MeshSize.Instance.Init();
                         string[] bookprimarytext = new string[_bookCount];
@@ -93,6 +94,7 @@ public class apijson : MonoBehaviour
                             obj.transform.Rotate(Vector3.up, -90);
                             obj.transform.Translate(Vector3.right * 0.2f);
                             imagetexturefromur itfu = obj.transform.GetChild(0).gameObject.GetComponent<imagetexturefromur>();
+                            itfu.minibook = MiniBookSlot.GetChild(i);
                             itfu.arrow.SetActive(true);
                             obj.gameObject.name = "Book";
                             int j = 0;
@@ -118,7 +120,7 @@ public class apijson : MonoBehaviour
                         logs.SetActive(true);
                         logText.text = r.message;
                     }
-                        break;
+                    break;
             }
         }
     }
