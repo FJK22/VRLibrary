@@ -34,7 +34,7 @@ public class MagnifyGlass : MonoBehaviour, IPointerClickHandler
         SearchCanvas.enabled = !SearchCanvas.enabled;
         if (SearchCanvas.enabled)
         {
-            SearchManager.Instance.SearchKey.ActivateInputField();
+            // SearchManager.Instance.SearchKey.ActivateInputField();
         }
         else
         {
