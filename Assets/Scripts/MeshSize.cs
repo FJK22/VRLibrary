@@ -11,6 +11,7 @@ public class MeshSize : MonoBehaviour
     [SerializeField] private Transform floor0; // this is floor0 transform. it is parent of all rows in floor0. 
     [SerializeField] private Transform floor1;
     [SerializeField] private Transform miniFloor1;
+    [SerializeField] private Transform miniFloor0;
 
     [SerializeField] private Transform elevator1;
     [SerializeField] private Elevator ElevatorPrefab;
@@ -26,6 +27,8 @@ public class MeshSize : MonoBehaviour
     public float distanceOfBook = 1f; // this is distance between book, the available number of book in row depends on this value, you can change on inspector.
     public float radius = 0;    // this is library radius : is caculated in script.
     private Vector3 _center;
+    private float miniModelFloorDelta = 0;
+    private float miniModelScale = 1;
 
     bool flag = true;
     void Awake(){
@@ -34,6 +37,8 @@ public class MeshSize : MonoBehaviour
         }else{
             Destroy(this);
         }
+        miniModelFloorDelta = miniFloor1.position.y - miniFloor0.position.y;
+        miniModelScale = miniFloor1.parent.localScale.x;
     }
     public IEnumerator Init()
     {
@@ -41,17 +46,17 @@ public class MeshSize : MonoBehaviour
         _center = CenterOrLibrary.position;
         Vector3 _radiusVector = floor0.GetChild(0).position - _center;
         radius = Mathf.Sqrt(_radiusVector.x * _radiusVector.x + _radiusVector.z * _radiusVector.z);
-        int _remain = FillInFloor(floor0, totalBookCount);
+        int _remain = FillInFloor(floor0, totalBookCount, 0);
         if(_remain > 0)
         {
-            _remain = FillInFloor(floor1, _remain);
+            _remain = FillInFloor(floor1, _remain, 1);
             int floorNum = 1;
             while(_remain > 0)
             {
                 floorNum++;
                 Transform newFloor = MakeNewFloor(floorNum);
                 Transform newMiniFloor = MakeNewMiniFloor(floorNum);
-                _remain = FillInFloor(newFloor, _remain);
+                _remain = FillInFloor(newFloor, _remain, floorNum);
             }
         }
         ElevatorManager.Instance.WasStarted();
@@ -77,12 +82,12 @@ public class MeshSize : MonoBehaviour
     private Transform MakeNewMiniFloor(int floorNum)
     {
         Transform newFloor = Instantiate(miniFloor1, miniFloor1.parent);
-        newFloor.position = miniFloor1.position + Vector3.up * 0.5f * (floorNum - 1);
+        newFloor.position = miniFloor1.position + Vector3.up * miniModelFloorDelta * (floorNum - 1);
         newFloor.name = "Floor" + floorNum;
         return newFloor;
     }
 
-    private int FillInFloor(Transform floor, int _remain)
+    private int FillInFloor(Transform floor, int _remain, int floorNum)
     {
         Bounds _bound;
         float _length;
@@ -90,6 +95,7 @@ public class MeshSize : MonoBehaviour
         float _angleDelta;
         Vector3 _direction;
         Vector3[] _verts;
+        float _miniDeltaZ = floorNum * (5 - miniModelFloorDelta / miniModelScale) + 0.38f;
         foreach (Transform row in floor)
         {
             _length = GetLength(row.GetComponent<MeshFilter>().mesh, row.name) * 393.70f;
@@ -108,7 +114,14 @@ public class MeshSize : MonoBehaviour
 
                     Transform miniBook = Instantiate(MiniBookPrefab, MiniBookParent);
                     miniBook.localEulerAngles = slot.localEulerAngles;
-                    miniBook.localPosition = slot.localPosition;
+                    if(floorNum < 1)
+                    {
+                        miniBook.localPosition = slot.localPosition;
+                    }
+                    else
+                    {
+                        miniBook.localPosition = slot.localPosition - new Vector3(0, _miniDeltaZ, 0);
+                    }
                     _remain--;
                     if (_remain <= 0) return _remain;
                 }

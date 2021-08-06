@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3514055243750223772}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 6716943393120102108}
   m_Father: {fileID: 4463674943485932185}
@@ -125,6 +125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CFX3_MagicAura_B_Runic
+      objectReference: {fileID: 0}
+    - target: {fileID: 641164126342059189, guid: 6c25ed7fc42ee8c428dd3127b937bb1b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3159919296933726236, guid: 6c25ed7fc42ee8c428dd3127b937bb1b,
         type: 3}
