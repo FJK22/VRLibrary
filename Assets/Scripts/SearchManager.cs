@@ -13,6 +13,8 @@ public class SearchManager : MonoBehaviour
     Transform player;
     public static bool isInputing = false;
     static public SearchManager Instance;
+
+     
     public bool IsInputing
     {
         get { return isInputing; }
@@ -86,7 +88,7 @@ public class SearchManager : MonoBehaviour
     {
         foreach (var l in lights)
         {
-            l.intensity = (isOn) ? 1f : 0.4f;
+           // l.intensity = (isOn) ? 1f : 0.4f;
         }
     }
     public void Clear()
