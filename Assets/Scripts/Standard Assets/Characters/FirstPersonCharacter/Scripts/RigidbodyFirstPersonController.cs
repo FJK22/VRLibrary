@@ -128,7 +128,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
             RotateView();
-            if (SearchManager.isInputing) return;
+            //if (SearchManager.isInputing) return;
             if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
             {
                 m_Jump = true;
@@ -139,7 +139,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void FixedUpdate()
         {
             GroundCheck();
-            if (SearchManager.isInputing) return;
+            //if (SearchManager.isInputing) return;
             Vector2 input = GetInput();
             if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
             {
