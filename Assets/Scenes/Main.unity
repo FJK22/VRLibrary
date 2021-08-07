@@ -4372,7 +4372,7 @@ MonoBehaviour:
     type: 3}
   MiniBookParent: {fileID: 1731739102}
   BookSlotParent: {fileID: 172635487}
-  distanceOfBook: 1
+  distanceOfBook: 0.139
   radius: 0
 --- !u!114 &1113977749
 MonoBehaviour:
